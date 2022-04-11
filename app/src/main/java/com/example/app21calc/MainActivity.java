@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
-        strnum1 = new StringBuilder();
+        strnum1 = new StringBuilder("0");
         strnum2 = new StringBuilder();
-
+//        make_clean();
         btn0 = findViewById(R.id.btn0);
         btn1 = findViewById(R.id.btn1);
         btn2 = findViewById(R.id.btn2);
@@ -298,7 +298,6 @@ public class MainActivity extends AppCompatActivity {
                 num2 = Math.sqrt(Double.parseDouble(strnum2.toString()));
                 strnum2.delete(0, strnum2.length());
                 strnum2.append(num2);
-                make_eval();
             } else
                 operation = null;
         }
@@ -325,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
         strnum1.delete(0, strnum1.length());
         last_operation = operation;
         operation = null;
+        System.out.println(strnum1);
 //        System.out.println("str1 " + strnum1);
 //        System.out.println("str2 " + strnum2);
     }
@@ -386,7 +386,9 @@ public class MainActivity extends AppCompatActivity {
             if (!strnum1.toString().contains(".")) {
                 if (strnum1.toString().isEmpty())
                     strnum1.append('0');
-                strnum1.append(".");
+                if (!strnum1.toString().contains("Infinity") && !strnum1.toString().contains("NaN")) {
+                    strnum1.append(".");
+                }
             }
         } else {
             if (!strnum2.toString().contains(".")) {
@@ -399,11 +401,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void make_rev() {
-        if (!strnum1.toString().isEmpty()) {
-            num1 = 1 / Double.parseDouble(strnum1.toString());
-            make_clean();
-            strnum1.append(Double.toString(num1));
-            update_string();
+        if (operation == null) {
+            if (!strnum1.toString().isEmpty()) {
+                num1 = 1 / Double.parseDouble(strnum1.toString());
+                make_clean();
+                strnum1.append(Double.toString(num1));
+                update_string();
+            }
+        } else {
+            if (!strnum2.toString().isEmpty()) {
+                num1 = 1 / Double.parseDouble(strnum2.toString());
+                strnum2.delete(0, strnum2.length());
+                strnum2.append(Double.toString(num1));
+                update_string();
+            }
         }
     }
 
